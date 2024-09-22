@@ -1,0 +1,8 @@
+services:
+  eldritch-observer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    entrypoint: java
+    command: "-jar app.jar"
+    env_file: .env
