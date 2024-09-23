@@ -1,7 +1,6 @@
 package services.dj45x.Utils;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import okhttp3.internal.http.RetryAndFollowUpInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -26,7 +25,7 @@ public class DevMode {
             return dotenv.get("PROD_TOKEN");
         } else {
             Logger.warn("Running in Development Mode!");
-            return dotenv.get("DEV_TOKEN");
+            return dotenv.get("TEST_TOKEN");
         }
     }
 
