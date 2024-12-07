@@ -18,11 +18,8 @@ public class JDAConfig {
 
     private final DevMode devMode;
 
-    private final String token;
-
-    public JDAConfig(DevMode devMode, String token) {
+    public JDAConfig(DevMode devMode) {
         this.devMode = devMode;
-        this.token = token;
     }
 
     @Bean
@@ -30,15 +27,18 @@ public class JDAConfig {
     @SneakyThrows
     public ShardManager shardManager(ObjectProvider<ListenerAdapter> listenerAdapters) {
         DefaultShardManagerBuilder shardBuilder = DefaultShardManagerBuilder
-                .createDefault(token)
-                .setShardsTotal(1)
+                .createDefault(DevMode.getDiscordToken())
+                .setShardsTotal(2)
                 .setMemberCachePolicy(MemberCachePolicy.ALL)
                 .setEnabledIntents(
                         GatewayIntent.GUILD_MEMBERS,
                         GatewayIntent.GUILD_MESSAGES,
                         GatewayIntent.MESSAGE_CONTENT,
                         GatewayIntent.GUILD_MESSAGE_REACTIONS,
-                        GatewayIntent.DIRECT_MESSAGES
+                        GatewayIntent.DIRECT_MESSAGES,
+                        GatewayIntent.GUILD_VOICE_STATES,
+                        GatewayIntent.GUILD_EMOJIS_AND_STICKERS,
+                        GatewayIntent.SCHEDULED_EVENTS
                 );
 
         for (ListenerAdapter adapter : listenerAdapters) {

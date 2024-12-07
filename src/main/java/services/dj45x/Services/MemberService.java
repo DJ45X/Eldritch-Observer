@@ -3,8 +3,9 @@ package services.dj45x.Services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import services.dj45x.Models.Member;
+import services.dj45x.Models.MemberModel;
 import services.dj45x.Repositories.MemberRepository;
+import services.dj45x.Utils.Logger;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,19 +16,23 @@ public class MemberService {
     @Autowired
     private MemberRepository memberRepository;
 
-    public void updateMemberActivity(String discordId, String memberName) {
-        Member member = memberRepository.findByDiscordID(discordId)
-                .orElse(new Member());
+    public void updateMemberActivity(String discordId) {
+        MemberModel memberModel = memberRepository.findByDiscordID(discordId)
+                .orElse(null);
 
-        member.setDiscordID(discordId);
-        member.setMemberName(memberName);
-        member.setLastActive(LocalDateTime.now());
-        member.setInactive(false); // Member is active
+        if (memberModel != null) {
+            try {
+                memberModel.setLastActive(LocalDateTime.now());
+                memberModel.setInactive(false); // Member is active
 
-        memberRepository.save(member);
+                memberRepository.save(memberModel);
+            } catch (Exception e) {
+                Logger.error("Failed to update member activity: " + e.getMessage());
+            }
+        }
     }
 
-    public List<Member> findInactiveMembers() {
+    public List<MemberModel> findInactiveMembers() {
         return memberRepository.findInactiveMembers();
     }
 

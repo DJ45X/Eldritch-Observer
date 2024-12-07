@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class DevMode {
     private static boolean devMode;
 
-    public DevMode(@Value("$(dev-mode)") boolean devMode) {
+    public DevMode(@Value("${dev-mode:false}") boolean devMode) {
         DevMode.devMode = devMode;
     }
 

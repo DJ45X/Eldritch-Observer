@@ -4,27 +4,26 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Getter
 @Setter
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Entity
-@Table(name= "MemberActivity")
-public class Member {
+@Table(name = "member_activity")
+public class MemberModel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    @Column(name = "discord_id", nullable = false, unique = true)
     private String discordID;
 
+    @Column(name = "member_name", nullable = false)
     private String memberName;
 
+    @Column(name = "last_active", nullable = false)
     private LocalDateTime lastActive;
 
+    @Column(name = "inactive", nullable = false)
     private boolean inactive;
+
 }
